@@ -1,8 +1,8 @@
 open Utils;
 
-requireCSS("./App.css");
+requireCSS("assets/styles/app.sass");
 
-let logo = requireAssetURI("./logo.svg");
+let logo = requireAssetURI("assets/images/logo.svg");
 
 let component = ReasonReact.statelessComponent("App");
 
@@ -10,16 +10,16 @@ let make = (~message, _children) => {
   ...component,
   render: _self =>
     <div className="App">
-      <header className="App-header">
+      <h2 className="App-header">
         <img src=logo className="App-logo" alt="logo" />
-        <h1 className="App-title"> (ReasonReact.stringToElement(message)) </h1>
-      </header>
+        <strong className="App-title">
+          (ReasonReact.stringToElement(message))
+        </strong>
+        <Box />
+      </h2>
       <p className="App-intro">
-        (
-          ReasonReact.stringToElement(
-            "To get started, edit src/App.re and save to reload."
-          )
-        )
+        (ReasonReact.stringToElement("We're working hard!!"))
       </p>
+      <Create />
     </div>
 };
