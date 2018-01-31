@@ -47,7 +47,6 @@ let make = (~saving=false, _children) => {
     <div className="Box">
       <h2> (ReasonReact.stringToElement("Create new stuff")) </h2>
       <div> (ReasonReact.stringToElement(saving ? "saving" : "not saving")) </div>
-      <MyBanner show=true message="hi there" />
       <fieldset className="form-group">
         <ReactSelect
           value=self.state.country
