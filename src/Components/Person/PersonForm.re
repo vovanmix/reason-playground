@@ -1,38 +1,18 @@
-type state = {
-  country: int,
-  name: string,
-  enabled: bool,
-  addresses: list(Types.address)
-};
+open PersonTypes;
+
+type state = person;
 
 type action =
   | UpdateName(string)
   | UpdateCountry(int)
   | UpdateEnabled(bool)
-  | UpdateAddresses(list(Types.address))
+  | UpdateAddresses(list(address))
+  | UpdateFile(option(string))
   | Submit;
 
-let component = ReasonReact.reducerComponent("Create");
+let component = ReasonReact.reducerComponent("PersonForm");
 
-let countries: array(ReactSelect.reactSelectOption(int)) = [|
-  {"value": 1, "label": "opt one"},
-  {"value": 2, "label": "opt two"},
-  {"value": 2, "label": "opt three"}
-|];
-
-let initialState = {
-  country: 0,
-  name: "",
-  enabled: false,
-  addresses: [{street: "Elm st", zip: 10342}]
-};
-
-let callSubmit = form : unit => {
-  Js.log("submit!");
-  Js.log(form);
-};
-
-let make = (~saving=false, _children) => {
+let make = (~onSubmit, ~saving=false, ~initialState: person, ~countries, _children) => {
   ...component,
   initialState: () => initialState,
   reducer: (action, state) =>
@@ -41,7 +21,8 @@ let make = (~saving=false, _children) => {
     | UpdateCountry(country) => ReasonReact.Update({...state, country})
     | UpdateEnabled(enabled) => ReasonReact.Update({...state, enabled})
     | UpdateAddresses(addresses) => ReasonReact.Update({...state, addresses})
-    | Submit => ReasonReact.UpdateWithSideEffects(state, ((_) => callSubmit(state)))
+    | UpdateFile(file) => ReasonReact.Update({...state, file})
+    | Submit => ReasonReact.UpdateWithSideEffects(state, ((_) => onSubmit(state)))
     },
   render: self =>
     <div className="Box">
@@ -67,10 +48,21 @@ let make = (~saving=false, _children) => {
           onChange=(value => self.send(UpdateEnabled(value)))
         />
       </fieldset>
-      <Addresses
-        addresses=self.state.addresses
-        onChange=(value => self.send(UpdateAddresses(value)))
-      />
+      <fieldset className="form-group">
+        <ImageSelector
+          value=self.state.file
+          onChange=(value => self.send(UpdateFile(value)))
+        />
+      </fieldset>
+      <fieldset className="form-group">
+        <FormList
+          items=self.state.addresses
+          label="Addresses"
+          onChange=(value => self.send(UpdateAddresses(value)))
+          defaultValue={street: "", zip: 0}
+          renderItem=((item, onChange) => <Address address=item onChange />)
+        />
+      </fieldset>
       <button
         disabled=(Js.Boolean.to_js_boolean(saving))
         onClick=(_event => self.send(Submit))>

@@ -4,7 +4,7 @@ type action =
   | UpdateStreet(string)
   | UpdateZip(string);
 
-let make = (~address: Types.address, ~onChange, _children) => {
+let make = (~address: PersonTypes.address, ~onChange, _children) => {
   let handleChange = action =>
     switch action {
     | UpdateStreet(street) => {...address, street} |> onChange

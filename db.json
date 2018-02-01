@@ -1,0 +1,49 @@
+{
+  "persons": [
+    {
+      "id": 1,
+      "country": 1,
+      "name": "Joe Doe",
+      "enabled": false,
+      "addresses": [
+        {
+          "street": "Elm St",
+          "zip": 9877867
+        },
+        {
+          "street": "Main ave",
+          "zip": 23446
+        },
+        {
+          "street": "Broad ct",
+          "zip": 7655643
+        }
+      ],
+      "file": "http://placehold.it/150/92c952"
+    },
+    {
+      "id": 2,
+      "country": 2,
+      "name": "Peter Johns",
+      "enabled": false,
+      "addresses": [
+        {
+          "street": "Elm St",
+          "zip": 9877867
+        },
+        {
+          "street": "Main ave",
+          "zip": 23446
+        },
+        {
+          "street": "Broad ct",
+          "zip": 7655643
+        }
+      ],
+      "file": "http://placehold.it/150/190122"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

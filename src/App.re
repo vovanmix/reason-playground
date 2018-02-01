@@ -15,11 +15,11 @@ let make = (~message, _children) => {
         <strong className="App-title">
           (ReasonReact.stringToElement(message))
         </strong>
-        <Box />
       </h2>
       <p className="App-intro">
         (ReasonReact.stringToElement("We're working hard!!"))
       </p>
-      <Create />
+      <PersonCreate />
+      <PersonList />
     </div>
 };

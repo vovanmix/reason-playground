@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("Text");
+let component = ReasonReact.statelessComponent("Checkbox");
 
 let make = (~value, ~onChange, ~placeholder="", _children) => {
   let hanldeChange = event => FormUtils.checkedFromEvent(event) |> onChange;

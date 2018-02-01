@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("GenericList");
+let component = ReasonReact.statelessComponent("FormList");
 
 type action('a) =
   | Update('a, int)
@@ -6,7 +6,8 @@ type action('a) =
   | Add;
 
 /* TODO: | Reorder */
-let genericList = (~items: list('a), ~onChange, ~label, ~defaultValue, ~renderItem) => {
+let make =
+    (~items: list('a), ~onChange, ~label, ~defaultValue, ~renderItem, _children) => {
   let handleChange = action =>
     switch action {
     | Update(item, idx) =>
@@ -21,7 +22,7 @@ let genericList = (~items: list('a), ~onChange, ~label, ~defaultValue, ~renderIt
     items
     |> List.mapi((i, item) => {
          let elt = renderItem(item, value => Update(value, i) |> handleChange);
-         <div>
+         <div key=(string_of_int(i))>
            <div> elt </div>
            <button onClick=(_e => Remove(i) |> handleChange)>
              (ReasonReact.stringToElement("x"))
