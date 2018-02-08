@@ -1,9 +1,8 @@
-/* require css file for side effect only */
-[@bs.val] external requireCSS : string => unit = "require";
+let stringifyId = id => Option.map(string_of_int, id) |> Option.getOrElse("");
 
-/* require an asset (eg. an image) and return exported string value (image URI) */
-[@bs.val] external requireAssetURI : string => string = "require";
+/* I hate typing this out every time */
+let textEl = ReasonReact.stringToElement;
 
-[@bs.val] external hot : bool = "module.hot";
+let arrayEl = ReasonReact.arrayToElement;
 
-[@bs.val] external accept : unit => unit = "module.hot.accept";
+let listEl = l => l |> Array.of_list |> arrayEl;

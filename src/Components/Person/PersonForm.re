@@ -12,7 +12,13 @@ type action =
 
 let component = ReasonReact.reducerComponent("PersonForm");
 
-let make = (~onSubmit, ~saving=false, ~initialState: person, ~countries, _children) => {
+let countries: array(ReactSelect.reactSelectOption(int)) = [|
+  {"value": 1, "label": "opt one"},
+  {"value": 2, "label": "opt two"},
+  {"value": 2, "label": "opt three"}
+|];
+
+let make = (~onSubmit, ~saving=false, ~initialState: person, _children) => {
   ...component,
   initialState: () => initialState,
   reducer: (action, state) =>

@@ -1,9 +1,10 @@
-open Utils;
+open JsUtils;
 
-ReactDOMRe.renderToElementWithId(
-  <App message="Welcome to Parcel Reason React" />,
-  "index"
-);
+requireCSS("assets/styles/app.sass");
+
+ReactDOMRe.renderToElementWithId(<App />, "root");
+
+ReasonReact.Router.push([%bs.raw {| window.location.pathname |}]);
 
 if (hot) {
   accept();

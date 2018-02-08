@@ -1,25 +1,42 @@
-open Utils;
+open Routing;
 
-requireCSS("assets/styles/app.sass");
+type state = {route};
 
-let logo = requireAssetURI("assets/images/logo.svg");
+type action =
+  | ChangeRoute(ReasonReact.Router.url);
 
-let component = ReasonReact.statelessComponent("App");
+let component = ReasonReact.reducerComponent("App");
 
-let make = (~message, _children) => {
+let initialState = {route: Index};
+
+let sections = [(Index, "Home"), (mkSectionRoute(People, ()), "People")];
+
+let make = _children => {
   ...component,
-  render: _self =>
-    <div className="App">
-      <h2 className="App-header">
-        <img src=logo className="App-logo" alt="logo" />
-        <strong className="App-title">
-          (ReasonReact.stringToElement(message))
-        </strong>
-      </h2>
-      <p className="App-intro">
-        (ReasonReact.stringToElement("We're working hard!!"))
-      </p>
-      <PersonCreate />
-      <PersonList />
-    </div>
+  initialState: () => initialState,
+  reducer: (action, _state) =>
+    switch action {
+    | ChangeRoute(url) => ReasonReact.Update({route: url |> mapUrlToRoute})
+    },
+  subscriptions: self => [
+    Sub(
+      () => ReasonReact.Router.watchUrl(url => self.send(ChangeRoute(url))),
+      ReasonReact.Router.unwatchUrl
+    )
+  ],
+  render: self => {
+    let route = self.state.route;
+    <div>
+      <Navbar route sections />
+      (
+        switch route {
+        | Index => <IndexPage />
+        | Login => <IndexPage />
+        | Section(People, path) => <PersonSection path />
+        | NotFound(path) => <NotFoundPage path />
+        }
+      )
+      <Footer />
+    </div>;
+  }
 };

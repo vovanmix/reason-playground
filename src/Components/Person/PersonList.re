@@ -18,21 +18,6 @@ let initialState = {items: [], fetching: false, error: None};
 let url = "http://my-json-server.typicode.com/vovanmix/reason-playground/persons";
 
 let fetch = (self: ReasonReact.self('a, 'b, 'c)) : unit =>
-  /* let user = {
-       id: None,
-       country: 0,
-       name: "",
-       enabled: false,
-       addresses: [{street: "Elm st", zip: 10342}],
-       file: None,
-       created_at: None
-     };
-     let user_ = {"id": user.id |> Js.Nullable.from_opt, "name": user.name};
-     Js.Promise.(
-       Axios.postData("/auth", user_)
-       |> then_(response => Js.log(response) |> resolve)
-       |> catch(error => Js.log(error) |> resolve)
-     ); */
   Js.Promise.(
     Axios.get(url)
     |> then_(response => response##data |> Decode.persons |> resolve)
@@ -41,7 +26,7 @@ let fetch = (self: ReasonReact.self('a, 'b, 'c)) : unit =>
   )
   |> Fun.noOp;
 
-let make = _children => {
+let make = (~qs, _children) => {
   ...component,
   initialState: () => initialState,
   reducer: (action, state) =>
